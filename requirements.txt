@@ -6,3 +6,5 @@ pillow==10.2.0
 matplotlib>=3.8.4,<4.0.0
 tifffile>=2024.2.12,<2025.0.0
 scipy>=1.13.0,<2.0.0
+gdown
+transformers

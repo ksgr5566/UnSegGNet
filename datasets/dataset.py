@@ -6,6 +6,8 @@ from tqdm import tqdm
 
 class Dataset:
     def __init__(self, dataset):
+        if dataset not in ["CUB", "ECSSD"]:
+            raise ValueError(f'Dataset: {dataset} is not supported')
         self.dataset = dataset
         if dataset == "CUB":
             self.images, self.masks = load_cub()
@@ -13,21 +15,26 @@ class Dataset:
             ds = deeplake.load("hub://activeloop/ecssd")
             self.images = ds["images"]
             self.masks = ds["masks"]
-        self.size = len(self.images)
+        self.loader = len(self.images)
 
     def load_samples(self):
         for imagep, true_maskp in zip(self.images, self.masks):
-            if self.dataset == "CUB":
-                img = np.asarray(Image.open(imagep))
-                seg = np.asarray(Image.open(true_maskp).convert('L'))
-                true_mask = np.where(seg >= 200,1,0)
-            elif self.dataset == "ECSSD":
-                img = np.asarray(imagep)
-                seg = np.asarray(true_maskp)
-                true_mask = np.where(seg == True, 1, 0)
-            yield img, true_mask
+            try:
+                if self.dataset == "CUB":
+                    img = np.asarray(Image.open(imagep))
+                    seg = np.asarray(Image.open(true_maskp).convert('L'))
+                    true_mask = np.where(seg >= 200,1,0)
+                elif self.dataset == "ECSSD":
+                    img = np.asarray(imagep)
+                    seg = np.asarray(true_maskp)
+                    true_mask = np.where(seg == True, 1, 0)
+                yield img, true_mask
+            except Exception as e:
+                print(e)
+            finally:
+                self.loader -= 1
 
-
+           
 def load_cub():
     cp = os.getcwd()
     

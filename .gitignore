@@ -1,3 +1,7 @@
+# custom
+medsam_vit_b.pth
+model.pt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
