@@ -1,5 +1,5 @@
 from bilateral_solver import bilateral_solver_output
-from features_extract import deep_features, medsam_features
+from features_extract import deep_features
 from torch_geometric.data import Data
 from extractor import ViTExtractor
 import torch.optim as optim
