@@ -24,21 +24,21 @@ class Segmentation:
         self.bs = bs
         self.epochs = epochs
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
+        self.loss_type = loss_type
         if process in ["DINO", "KMEANS_DINO"]:
             self.feats_dim = 384
             pretrained_weights = './dino_deitsmall8_pretrain_full_checkpoint.pth'
             if not os.path.exists(pretrained_weights):
                 url = 'https://dl.fbaipublicfiles.com/dino/dino_deitsmall8_pretrain/dino_deitsmall8_pretrain_full_checkpoint.pth'
                 util.download_url(url, pretrained_weights)
-            self.extractor = ViTExtractor('dino_vits8', stride, model_dir=pretrained_weights, device=device)
-            self.model = GNNpool(self.feats_dim, 64, 32, 2, self.device, activation, loss_type).to(device)
+            self.extractor = ViTExtractor(model_dir=pretrained_weights, device= self.device )
+            self.model = GNNpool(self.feats_dim, 64, 32, 2, self.device, activation, loss_type).to( self.device )
         elif process == "MEDSAM_GNN":
             self.feats_dim = 768
-            self.model = GNNpool(self.feats_dim, 128, 64, 2, device, activation, loss_type).to(device)
+            self.model = GNNpool(self.feats_dim, 128, 64, 2,  self.device , activation, loss_type).to( self.device )
         elif process == "MEDSAM_INFERENCE":
             self.processor = SamProcessor.from_pretrained("wanglab/medsam-vit-base")
-            self.model = SamModel.from_pretrained("wanglab/medsam-vit-base").to(device)
+            self.model = SamModel.from_pretrained("wanglab/medsam-vit-base").to( self.device )
         torch.save(self.model.state_dict(), 'model.pt')
         self.model.train()
 
@@ -79,7 +79,7 @@ class Segmentation:
                 S = S.detach().cpu()
                 S = torch.argmax(S, dim=-1)
                 
-                segmentation = util.graph_to_mask(S, image_tensor, image)
+            segmentation = util.graph_to_mask(S, image_tensor, image)
 
         if self.bs:
             segmentation = bilateral_solver_output(image, segmentation)[1]
