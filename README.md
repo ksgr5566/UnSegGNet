@@ -30,7 +30,8 @@ object recognition, where labeled data may be scarce or unavailable.
 4. Pip install the required torch version from [here](https://pytorch.org/). In this project we are using PyTorch 2.0 version.
 5. Make the script.sh executable, run: `./script.sh`
 
-Note: For some reason, ECSSD (via deeplake) is not getting installed on colab. Kindly run it in another environment, if you face any issue.
+Note: For some reason, ECSSD (via deeplake) is not getting installed on colab. Kindly run it in another environment, if you face any issue.\
+Currently in this repo, only CUB and ECSSD are supported. Other datasets are being added soon.
 
 # Execution:
 You can run `python main.py` with the following arguments.
@@ -50,14 +51,14 @@ Example call:\
 
 
 # Visualizations:
-![](public\Fig_1.png)
+![](public/Fig_1.png)
 
-![](public\Fig_2.png)
+![](public/Fig_2.png)
 
 
 # Results:
-![](public\Table_1.png)
+![](public/Table_1.png)
 
-![](public\Table_2.png)
+![](public/Table_2.png)
 
-![](public\Table_3.png)
+![](public/Table_3.png)
