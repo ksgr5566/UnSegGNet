@@ -17,7 +17,7 @@ from transformers import SamModel, SamProcessor
 
 class Segmentation:
     def __init__(self, process, bs=False, epochs=20, resolution=(224, 224), activation=None, loss_type=None):
-        if process not in ["KMEANS_DINO", "DINO", "MEDSAM_INFERENCE", "MEDSAM_GNN"]:
+        if process not in ["KMEANS_DINO", "DINO", "MEDSAM_INFERENCE"]:
             raise ValueError(f'Process: {process} is not supported')
         self.process = process
         self.resolution = resolution
@@ -31,14 +31,11 @@ class Segmentation:
             if not os.path.exists(pretrained_weights):
                 url = 'https://dl.fbaipublicfiles.com/dino/dino_deitsmall8_pretrain/dino_deitsmall8_pretrain_full_checkpoint.pth'
                 util.download_url(url, pretrained_weights)
-            self.extractor = ViTExtractor(model_dir=pretrained_weights, device= self.device )
-            self.model = GNNpool(self.feats_dim, 64, 32, 2, self.device, activation, loss_type).to( self.device )
-        elif process == "MEDSAM_GNN":
-            self.feats_dim = 768
-            self.model = GNNpool(self.feats_dim, 128, 64, 2,  self.device , activation, loss_type).to( self.device )
+            self.extractor = ViTExtractor(model_dir=pretrained_weights, device=self.device)
+            self.model = GNNpool(self.feats_dim, 64, 32, 2, self.device, activation, loss_type).to(self.device)
         elif process == "MEDSAM_INFERENCE":
             self.processor = SamProcessor.from_pretrained("wanglab/medsam-vit-base")
-            self.model = SamModel.from_pretrained("wanglab/medsam-vit-base").to( self.device )
+            self.model = SamModel.from_pretrained("wanglab/medsam-vit-base").to(self.device)
         torch.save(self.model.state_dict(), 'model.pt')
         self.model.train()
 
@@ -52,9 +49,7 @@ class Segmentation:
             segmentation = cv2.resize(medsam_seg.astype('float'), (image[:, :, 0].shape[1], image[:, :, 0].shape[0]), interpolation=cv2.INTER_NEAREST)
         else:
             image_tensor, image = util.load_data_img(image, self.resolution)
-            if self.process == "MEDSAM_GNN":
-                F = medsam_features(image_tensor, device=self.device)
-            elif self.process in ["DINO", "KMEANS_DINO"]:
+            if self.process in ["DINO", "KMEANS_DINO"]:
                 F = deep_features(image_tensor, self.extractor, device=self.device)
 
             if self.process == "KMEANS_DINO":

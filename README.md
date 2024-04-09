@@ -43,7 +43,7 @@ You can run `python main.py` with the following arguments.
 | resolution     | two positive ints                                               | [224, 224] |
 | activation | "deepcut_activation", "relu", "silu", "gelu", "selu" | "selu"     |
 | loss_type      | "DMON", "NCUT"                                      | "DMON"     |
-| process        | "KMEANS_DINO", "DINO", "MEDSAM_INFERENCE", "MEDSAM_GNN" | "DINO"     |
+| process        | "KMEANS_DINO", "DINO", "MEDSAM_INFERENCE" | "DINO"     |
 | dataset        | "CUB", "ECSSD"                                      | "ECSSD"    |
 
 Example call:\
