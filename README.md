@@ -50,14 +50,14 @@ Example call:\
 
 
 # Visualizations:
-![](public\Fig_1.png)
+![](public/Fig_1.png)
 
-![](public\Fig_2.png)
+![](public/Fig_2.png)
 
 
 # Results:
-![](public\Table_1.png)
+![](public/Table_1.png)
 
-![](public\Table_2.png)
+![](public/Table_2.png)
 
-![](public\Table_3.png)
+![](public/Table_3.png)
