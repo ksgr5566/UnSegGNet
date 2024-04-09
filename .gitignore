@@ -1,3 +1,8 @@
+# custom
+medsam_vit_b.pth
+model.pt
+dino_deitsmall8_pretrain_full_checkpoint.pth
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
