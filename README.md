@@ -50,15 +50,18 @@ Example call:\
 `python main.py --dataset "ECSSD" --bs False --epochs 20 --resolution 224 224 --activation "selu" --loss_type "DMON" --process "DINO" --dataset "ECSSD"`
 
 
-# Visualizations:
+# Visualizations
 ![](public/Fig_1.png)
 
 ![](public/Fig_2.png)
 
 
-# Results:
+# Results
 ![](public/Table_1.png)
 
 ![](public/Table_2.png)
 
 ![](public/Table_3.png)
+
+# Acknowledgements
+We extend our heartfelt gratitude to the creators and contributors of [Deepcut](https://github.com/SAMPL-Weizmann/DeepCut) which laid the foundation for our code, which is licensed under the [MIT License](https://github.com/SAMPL-Weizmann/DeepCut/blob/main/LICENSE.txt).
