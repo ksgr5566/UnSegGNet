@@ -36,7 +36,7 @@ class Dataset:
 
            
 def load_cub():
-    cp = os.getcwd()
+    cp = os.path.join(os.getcwd(), 'datasets')
     
     fold = f'{cp}/segmentations'
     file_paths = []

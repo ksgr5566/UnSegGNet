@@ -47,7 +47,7 @@ You can run `python main.py` with the following arguments.
 | dataset        | "CUB", "ECSSD"                                      | "ECSSD"    |
 
 Example call:\
-`python main.py --dataset "ECSSD" --bs False --epochs 20 --resolution 224 224 --activation "selu" --loss_type "DMON" --process "DINO" --dataset "ECSSD"`
+`python main.py --dataset "ECSSD" --bs False --epochs 20 --resolution 224 224 --activation "selu" --loss_type "DMON" --process "DINO"`
 
 
 # Visualizations
