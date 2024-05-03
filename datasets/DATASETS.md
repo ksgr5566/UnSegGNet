@@ -1,5 +1,26 @@
 # Steps to install Datasets
 
+## DUTS
+
+Follow the below steps to download and unzip the dataset. 
+```
+wget http://saliencydetection.net/duts/download/DUTS-TE.zip
+
+tar -xf DUTS-TE.zip
+```
+
+Python alternative to extract zip: 
+```
+from zipfile import ZipFile
+
+with ZipFile("DUTS-TE.zip", 'r') as f:
+  f.extractall()
+```
+
+Place all the dirs/files extracted in this directory. Verify that these are present:
+- DUTS-TE/DUTS-TE-Mask
+- DUTS-TE/DUTS-TE-Image
+
 ## CUB
 
 Follow below steps to download and unzip the dataset.
