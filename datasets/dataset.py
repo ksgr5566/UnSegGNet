@@ -78,27 +78,28 @@ def load_cub():
             if x in pretest:
                 test.append(y)
 
-    masks = sorted([f'{cp}/segmentations/' +x[:len(x)-3] + 'png' for x in test])
-    test = sorted([f'{cp}/CUB_200_2011/images/' +x for x in test])
+    masks = sorted([f'{cp}/segmentations/' + x[:len(x)-3] + 'png' for x in test])
+    test = sorted([f'{cp}/CUB_200_2011/images/' + x for x in test])
 
     return test, masks
 
 
 def load_duts():
-    fold = os.path.join(os.getcwd(), 'DUTS-TE/DUTS-TE-Image')
-    file_paths = []
+    cp = os.path.join(os.getcwd(), 'datasets')
 
+    fold = os.path.join(cp, 'DUTS-TE/DUTS-TE-Image')
+    file_paths = []
     for root, _, files in os.walk(fold):
         for file in files:
             file_paths.append(os.path.join(root,file))
 
-    fold2 = os.path.join(os.getcwd(), 'DUTS-TE/DUTS-TE-Mask')
+    fold2 = os.path.join(cp, 'DUTS-TE/DUTS-TE-Mask')
     fp2 = []
-
     for root, _, files in os.walk(fold2):
         for file in files:
             fp2.append(os.path.join(root,file))
 
-    fp2 = sorted(fp2)
-    file_paths = sorted(file_paths)
-    return file_paths, fp2
+    masks = sorted(fp2)
+    test = sorted(file_paths)
+
+    return test, masks
