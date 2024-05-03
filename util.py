@@ -58,17 +58,17 @@ def medsam_graph_to_mask(S, image):
 """
 below one is original NCut W
 """
-def create_adj(F, loss_type):
+def create_adj(F, loss_type, threshold=0):
     if loss_type == "NCUT":
         W = F @ F.T
         # threshold
-        W = W * (W > 0)
+        W = W * (W > threshold)
         # norm
         W = W / W.max()
     elif loss_type == "DMON":
         F_norm = F / np.linalg.norm(F, axis=1, keepdims=True)
         W = np.dot(F_norm, F_norm.T)
-        W = np.where(W >= 0.1, 1, 0).astype(np.float32)
+        W = np.where(W >= threshold, 1, 0).astype(np.float32)
         
     return W
 

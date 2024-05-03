@@ -5,7 +5,7 @@ import torch_geometric.nn as pyg_nn
 
 
 class GNNpool(nn.Module):
-    def __init__(self, input_dim, conv_hidden, mlp_hidden, num_clusters, device, activ="silu", loss_type="DMON"):
+    def __init__(self, input_dim, conv_hidden, mlp_hidden, num_clusters, device, activ="silu", loss_type="DMON", conv_type="ARMA"):
         """
         implementation of mincutpool model from: https://arxiv.org/pdf/1907.00481v6.pdf
         @param input_dim: Size of input nodes features
@@ -49,7 +49,14 @@ class GNNpool(nn.Module):
             raise ValueError("Activation function not supported")
 
         # GNN conv
-        self.convs = pyg_nn.GCN(input_dim, conv_hidden, 1, act=act)
+        if conv_type == "ARMA":
+            self.convs = pyg_nn.ARMAConv(input_dim, conv_hidden, num_stacks=2, num_layers=4, act=nn_activ,\
+                dropout=0.4,shared_weights=False)
+        elif conv_type == "GCN":
+            self.convs = pyg_nn.GCN(input_dim, conv_hidden, 1, act=act)
+        else:
+            raise ValueError("Conv type not supported")
+
         # MLP
         self.mlp = nn.Sequential(
             nn.Linear(conv_hidden, mlp_hidden), nn_activ, nn.Dropout(0.25),
