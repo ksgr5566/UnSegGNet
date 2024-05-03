@@ -29,9 +29,10 @@ object recognition, where labeled data may be scarce or unavailable.
      `. venv/bin/activate`
 4. Pip install the required torch version from [here](https://pytorch.org/). In this project we are using PyTorch 2.0 version.
 5. Make the script.sh executable, run: `./script.sh`
+6. Follow steps mentioned [here](/datasets/DATASETS.md) to setup the datasets and follow the below execution steps.
 
 Note: For some reason, ECSSD (via deeplake) is not getting installed on colab. Kindly run it in another environment, if you face any issue.\
-Currently in this repo, only CUB and ECSSD are supported. Other datasets are being added soon.
+Currently in this repo, only CUB, ECSSD and DUTS are supported. Other datasets are being added soon.
 
 # Execution:
 You can run `python main.py` with the following arguments.
