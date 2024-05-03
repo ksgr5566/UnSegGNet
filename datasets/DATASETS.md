@@ -6,7 +6,7 @@ Follow the below steps to download and unzip the dataset.
 ```
 wget http://saliencydetection.net/duts/download/DUTS-TE.zip
 
-tar -xf DUTS-TE.zip
+unzip DUTS-TE.zip
 ```
 
 Python alternative to extract zip: 
