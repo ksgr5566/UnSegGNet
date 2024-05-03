@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 class Dataset:
     def __init__(self, dataset):
-        if dataset not in ["CUB", "ECSSD"]:
+        if dataset not in ["CUB", "ECSSD", "DUTS"]:
             raise ValueError(f'Dataset: {dataset} is not supported')
         self.dataset = dataset
         if dataset == "CUB":
@@ -15,6 +15,8 @@ class Dataset:
             ds = deeplake.load("hub://activeloop/ecssd")
             self.images = ds["images"]
             self.masks = ds["masks"]
+        elif dataset == "DUTS":
+            self.images, self.masks = load_duts()
         self.loader = len(self.images)
 
     def load_samples(self):
@@ -28,6 +30,10 @@ class Dataset:
                     img = np.asarray(imagep)
                     seg = np.asarray(true_maskp)
                     true_mask = np.where(seg == True, 1, 0)
+                if self.dataset == "DUTS":
+                    img = np.asarray(Image.open(imagep))
+                    seg = np.asarray(Image.open(true_maskp).convert('L'))
+                    true_mask = np.where(seg == 255,1,0).astype(np.uint8)
                 yield img, true_mask
             except Exception as e:
                 print(e)
@@ -72,8 +78,28 @@ def load_cub():
             if x in pretest:
                 test.append(y)
 
-    masks = sorted([f'{cp}/segmentations/' +x[:len(x)-3] + 'png' for x in test])
-    test = sorted([f'{cp}/CUB_200_2011/images/' +x for x in test])
+    masks = sorted([f'{cp}/segmentations/' + x[:len(x)-3] + 'png' for x in test])
+    test = sorted([f'{cp}/CUB_200_2011/images/' + x for x in test])
 
     return test, masks
 
+
+def load_duts():
+    cp = os.path.join(os.getcwd(), 'datasets')
+
+    fold = os.path.join(cp, 'DUTS-TE/DUTS-TE-Image')
+    file_paths = []
+    for root, _, files in os.walk(fold):
+        for file in files:
+            file_paths.append(os.path.join(root,file))
+
+    fold2 = os.path.join(cp, 'DUTS-TE/DUTS-TE-Mask')
+    fp2 = []
+    for root, _, files in os.walk(fold2):
+        for file in files:
+            fp2.append(os.path.join(root,file))
+
+    masks = sorted(fp2)
+    test = sorted(file_paths)
+
+    return test, masks

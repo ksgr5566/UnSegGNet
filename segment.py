@@ -16,7 +16,7 @@ from gnn_pool import GNNpool
 from transformers import SamModel, SamProcessor
 
 class Segmentation:
-    def __init__(self, process, bs=False, epochs=20, resolution=(224, 224), activation=None, loss_type=None):
+    def __init__(self, process, bs=False, epochs=20, resolution=(224, 224), activation=None, loss_type=None, threshold=None, conv_type=None):
         if process not in ["KMEANS_DINO", "DINO", "MEDSAM_INFERENCE"]:
             raise ValueError(f'Process: {process} is not supported')
         self.process = process
@@ -25,6 +25,7 @@ class Segmentation:
         self.epochs = epochs
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.loss_type = loss_type
+        self.threshold = threshold
         if process in ["DINO", "KMEANS_DINO"]:
             self.feats_dim = 384
             pretrained_weights = './dino_deitsmall8_pretrain_full_checkpoint.pth'
@@ -32,7 +33,7 @@ class Segmentation:
                 url = 'https://dl.fbaipublicfiles.com/dino/dino_deitsmall8_pretrain/dino_deitsmall8_pretrain_full_checkpoint.pth'
                 util.download_url(url, pretrained_weights)
             self.extractor = ViTExtractor(model_dir=pretrained_weights, device=self.device)
-            self.model = GNNpool(self.feats_dim, 64, 32, 2, self.device, activation, loss_type).to(self.device)
+            self.model = GNNpool(self.feats_dim, 64, 32, 2, self.device, activation, loss_type, conv_type).to(self.device)
         elif process == "MEDSAM_INFERENCE":
             self.processor = SamProcessor.from_pretrained("wanglab/medsam-vit-base")
             self.model = SamModel.from_pretrained("wanglab/medsam-vit-base").to(self.device)
@@ -58,7 +59,7 @@ class Segmentation:
                 labels = kmeans.labels_
                 S = torch.tensor(labels)
             else:
-                W = util.create_adj(F, self.loss_type)
+                W = util.create_adj(F, self.loss_type, self.threshold)
                 node_feats, edge_index, edge_weight = util.load_data(W, F)
                 data = Data(node_feats, edge_index, edge_weight).to(self.device)
                 self.model.load_state_dict(torch.load('./model.pt', map_location=self.device))

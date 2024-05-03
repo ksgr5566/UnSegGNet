@@ -44,10 +44,12 @@ You can run `python main.py` with the following arguments.
 | activation | "deepcut_activation", "relu", "silu", "gelu", "selu" | "selu"     |
 | loss_type      | "DMON", "NCUT"                                      | "DMON"     |
 | process        | "KMEANS_DINO", "DINO", "MEDSAM_INFERENCE" | "DINO"     |
-| dataset        | "CUB", "ECSSD"                                      | "ECSSD"    |
+| dataset        | "CUB", "ECSSD", "DUTS"                                     | "ECSSD"    |
+| threshold      | float                                               | 0          |
+| conv_type      | "ARMA", "GCN"                                       | "ARMA"     |
 
 Example call:\
-`python main.py --dataset "ECSSD" --bs False --epochs 20 --resolution 224 224 --activation "selu" --loss_type "DMON" --process "DINO"`
+`python main.py --dataset "ECSSD" --threshold 0.1 --bs False --epochs 20 --resolution 224 224 --activation "selu" --loss_type "DMON" --process "DINO" --conv_type "ARMA"`
 
 
 # Visualizations

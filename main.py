@@ -10,11 +10,13 @@ parser.add_argument("--activation", type=str, default='selu')
 parser.add_argument("--loss_type", type=str, default='DMON')
 parser.add_argument("--process", type=str, default='DINO')
 parser.add_argument("--dataset", type=str, default='ECSSD')
+parser.add_argument("--threshold", type=float, default=0)
+parser.add_argument("--conv_type", type=str, default='ARMA')
 
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    seg = Segmentation(args.process, args.bs, args.epochs, tuple(args.resolution), args.activation, args.loss_type)
+    seg = Segmentation(args.process, args.bs, args.epochs, tuple(args.resolution), args.activation, args.loss_type, args.threshold, args.conv_type)
     ds = Dataset(args.dataset)
 
     total_iou = 0
