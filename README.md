@@ -47,10 +47,10 @@ You can run `python main.py` with the following arguments.
 | process        | "KMEANS_DINO", "DINO", "MEDSAM_INFERENCE" | "DINO"     |
 | dataset        | "CUB", "ECSSD", "DUTS"                                     | "ECSSD"    |
 | threshold      | float                                               | 0          |
-| conv_type      | "ARMA", "GCN"                                       | "ARMA"     |
+| conv_type      | "GCN"                                       | "GCN"     |
 
 Example call:\
-`python main.py --dataset "ECSSD" --threshold 0.1 --bs False --epochs 20 --resolution 224 224 --activation "selu" --loss_type "DMON" --process "DINO" --conv_type "ARMA"`
+`python main.py --dataset "ECSSD" --threshold 0.1 --bs False --epochs 20 --resolution 224 224 --activation "selu" --loss_type "DMON" --process "DINO" --conv_type "GCN"`
 
 
 # Visualizations
