@@ -1,5 +1,7 @@
 # UnSegGNet
-Official code for the paper UnSegGNet: Unsupervised Image Segmentation using Graph Neural Networks
+~~Official code for the paper UnSegGNet: Unsupervised Image Segmentation using Graph Neural Networks~~
+Refer to the updated version here: https://github.com/ksgr5566/UnSeGArmaNet
+This repo is now archived.
 
 # Abstract
 Image segmentation, the process of partitioning an image into meaningful regions, plays a pivotal role
